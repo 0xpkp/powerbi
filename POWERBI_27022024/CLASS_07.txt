@@ -1,0 +1,23 @@
+STEP 1 Created a Database with Name POWERBI_CLASSES
+
+STEP 2 Take a new Query window by Right Click on PowerBI_classes
+
+STEP 3 Download SalesOrder_script.sql
+copy all data in downloded to Query window in sql
+
+Step 4 Click on Execute
+
+SERVER NAME: DESKTOP-6J1R5S3\SQLEXPRESS
+DATABASE NAME: POWERBI_CLASSES
+
+-- USERNAME & Password Not Required for WIndows Auth
+-- UserName & Password are mandatory for SQL Server Aut
+USERNAME: sa [admin]
+PASSWORD:
+
+
+Import -
+data will be stored in power BI
+
+Direct Query -
+Live Connection

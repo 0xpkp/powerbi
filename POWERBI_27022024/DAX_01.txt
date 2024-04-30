@@ -1,0 +1,111 @@
+-- Aggregate 
+sum, max, min, count, average, stdev, ...
+COUNT --> no of records in a column
+COUNTA --> no of records in a column [includes booleans] excluding nulls
+COUNTBLANK --> no of nulls in a column
+
+&& --> and
+|| --> or
+
+-- FILTER Functions
+East Sales = CALCULATE(sum(SalesOrder[Sales]), FILTER(SalesOrder, SalesOrder[Region]="East")) 
+East West Sales = CALCULATE(sum(SalesOrder[Sales]), FILTER(SalesOrder,SalesOrder[Region]="East"||SalesOrder[Region]="West"))
+neg sum sales = CALCULATE(sum(SalesOrder[Sales]), FILTER(SalesOrder,SalesOrder[Profit]<0))
+Count East Orders = CALCULATE(COUNT(SalesOrder[Order ID]), FILTER(SalesOrder, SalesOrder[Region]="East"))
+East Furniture Sales = CALCULATE(sum(SalesOrder[Sales]), FILTER(SalesOrder,SalesOrder[Region]="East"&&SalesOrder[Category]="Furniture"))
+Sun Sales= CALCULATE(sum(SalesOrder[Sales]), FILTER(SalesOrder, Weekday(SalesOrder[Order Date]))) 
+
+NEG pROFIT = FILTER(SalesOrder,SalesOrder[Profit]<0)
+NEG PROFIT REGION EAST = FILTER(SalesOrder,SalesOrder[Region]="eAST"&&SalesOrder[Profit]<0)
+
+ALL_01 = ALL(SalesOrder[Region])
+ALL_02 = ALL(SalesOrder[Customer Name],SalesOrder[Order ID])
+ALL_03 = ALL(SalesOrder[Customer Name],SalesOrder[Order ID],SalesOrder[Product Name])
+SUM_SALE = CALCULATE(SUM(SalesOrder[Sales]),ALL(SalesOrder))
+ALL Method = CALCULATE(sum(SalesOrder[Sales]),All(SalesOrder))
+ALL Except Method = CALCULATE(sum(SalesOrder[Sales]),ALLEXCEPT(SalesOrder,SalesOrder[Region],SalesOrder[Segment]))
+
+
+-- Text Functions
+Len = len(Returns[Order ID])
+LEFT = LEFT(Returns[Order ID],3) 
+Right = Right(Returns[Order ID],6)
+MID = mid(Returns[Order ID],3,4)
+MID_01 = mid(Returns[Order ID],4,4)
+Search_01 = SEARCH("ca",Returns[Order ID],1,999) Not Case Sensitive
+Search_02 = SEARCH("2017",Returns[Order ID],1,0)
+Find_01 = Find("ca",Returns[Order ID],1,0) Case Sensitive
+Substitute = SUBSTITUTE(Returns[Order ID],"CA","CANADA")
+Substitute_01 = SUBSTITUTE(Returns[Order ID],"CA","CANADA",2)
+Replace = REPLACE(Returns[Order ID],1,2,"TEST")
+
+-- Math Functions
+Profit_01 = ABS(SalesOrder[Profit])
+Round = ROUND(SalesOrder[Profit],2)
+Rounddown = ROUNDDOWN(SalesOrder[Profit],0)
+Roundup = ROUNDUP(SalesOrder[Profit],0) 
+
+-- Date and Time Functions
+Order Year = YEAR(SalesOrder[Order Date])
+Order Month = MONTH(SalesOrder[Order Date]) [Month 1-Jan to 12-Dec]
+Order Day = Day(SalesOrder[Order Date])
+Order Quarter = Quarter(SalesOrder[Order Date])
+Order Weeknum = WEEKNUM(SalesOrder[Order Date]) 1 - Sunday, 2 -- Monday, 11, 12, 21 -- ISO week
+Order WEEKDAY = WEEKDAY(SalesOrder[Order Date]) 1 [1 sun- 7 sat], 2 [1 mon- 7 sun] 11 Mon to Sun, 12 Tue to Mon
+
+difference between dates
+Datedfiff_01 = DATEDIFF(SalesOrder[Order Date], SalesOrder[Ship Date],DAY)
+Datedfiff_02 = DATEDIFF(SalesOrder[Order Date], SalesOrder[Ship Date],Month)
+Networkdays = NETWORKDAYS(SalesOrder[Order Date],SalesOrder[Ship Date],1)  
+1-- only saturday, sunday, 2 sunday, monday.........7 friday Saturday, 11 sunday, 12 monday...
+
+EOMONTH_0 = EOMONTH(SalesOrder[Order Date],0)
+EOMONTH_1= EOMONTH(SalesOrder[Order Date],1)
+DATEADD
+Order Hour = Hour(SalesOrder[Order Date])
+Order Minute = Minute(SalesOrder[Order Date])
+Order Second = Second(SalesOrder[Order Date])
+
+-- Logical Functions
+pROFT_LOSS = IF(SalesOrder[Profit]>0,"PROFIT","LOSS")
+pROFT_LOSS = IF(SalesOrder[Profit]>0,">0","<0")
+PL_01 = IF(SalesOrder[Profit]>0, "PROFIT",IF(SalesOrder[Profit]<0,"LOSS","ZERO"))
+if_aND = IF(SalesOrder[Sales]>=10000&&SalesOrder[Profit]>0,"HIGH PROFIT","AVG PROFIT")
+
+SALES>10000 AND PROFIT >0 -- HIGH SALES, SALES>=5000 AND PROFIT >0 -- AVG SALES, LOW SALES
+if_02 = IF(SalesOrder[Sales]>10000&&SalesOrder[Profit]>0,"HIGH SALES",
+	IF(SalesOrder[Sales]>5000&&SalesOrder[Profit]>0,"AVG SALES","LOW SALES"))
+SWITCH = SWITCH(WEEKDAY(SalesOrder[Order Date]),1,"Sun",2,"Mon",3,"Tue",4,"Wed",5,"Thu",6,"Fri",7,"Sat")
+
+-- TIME INTELLIGENCE FUNCTIONS
+1. All dates  must be unique
+2. no gaps between the dates
+3. mark table as date table
+
+4. data modeling
+5. apply functions
+
+Cal_dates = CALENDAR("01-jan-2014","31-dec-2018")
+dATEADD_01 = DATEADD(SalesOrder[Order Date],1,MONTH)
+
+PY_SALES = CALCULATE(sum(SalesOrder[Sales]),PREVIOUSYEAR(Cal_dates[Date]))
+PM_Sales = CALCULATE(sum(SalesOrder[Sales]),PREVIOUSMONTH(Cal_dates[Date]))
+NM_Sales = CALCULATE(sum(SalesOrder[Sales]),NEXTMONTH(Cal_dates[Date]))
+YTD = TOTALYTD(sum(SalesOrder[Sales]),Cal_dates[Date]) 
+SamePeriodPVYear = CALCULATE(sum(SalesOrder[Sales]),SAMEPERIODLASTYEAR(Cal_dates[Date]))
+
+-- Parent Child Functions
+PATH_01 = PATH(PK_Data[EmpId],PK_Data[ParentEMpid])
+PATH_02 = PATHLENGTH(PK_Data[PATH_01]) 
+PATHReverse = PATHITEMREVERSE(PK_Data[PATH_01],2) 
+
+Power BI Service
+emailid:powerbi@intellipaatlearning.onmicrosoft.com
+password:Intellipaat@123
+
+** this login will not work if you are using org laptop/computer
+** this is 60 days trial version
+
+PowerBI Service will not support personal Email ID
+only org email id
+
